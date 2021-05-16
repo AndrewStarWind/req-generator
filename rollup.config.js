@@ -71,7 +71,7 @@ export default {
     // instead of npm run dev), minify
     production && terser(),
 
-    scss(),
+    scss({ output: 'bundle.css'})
   ],
   watch: {
     clearScreen: false,
