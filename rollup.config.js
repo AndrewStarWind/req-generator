@@ -42,6 +42,7 @@ export default {
       compilerOptions: {
         // enable run-time checks when not in production
         dev: !production,
+        accessors: true
       },
     }),
     // we'll extract any component CSS out into
@@ -71,7 +72,7 @@ export default {
     // instead of npm run dev), minify
     production && terser(),
 
-    scss({ output: 'bundle.css'})
+    scss({ output: 'public/build/bundle.css'})
   ],
   watch: {
     clearScreen: false,

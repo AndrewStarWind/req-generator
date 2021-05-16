@@ -6,7 +6,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
-    "lint": "eslint . --ext .js,.svelte --fix"
+    "lint": "eslint . --ext .js,.svelte --fix",
+    "buildExt": "cpx -C public/** public/** && rollup -c && cpx extension/**/*.* public"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
