@@ -1,32 +1,26 @@
+require('svelte/compiler')
+
 module.exports = {
-  parserOptions: {
-    ecmaVersion: 2019,
-    sourceType: 'module'
-  },
   env: {
-    es6: true,
     browser: true,
-    node: true
+    es2021: true
   },
   extends: [
-    'eslint:recommended'
+    'standard'
   ],
+  parserOptions: {
+    ecmaVersion: 12,
+    sourceType: 'module'
+  },
   plugins: [
     'svelte3'
   ],
-  ignorePatterns: [
-    'public/build/'
-  ],
   overrides: [
     {
-      files: ['**/*.svelte'],
+      files: ['**/**.svelte'],
       processor: 'svelte3/svelte3'
     }
   ],
   rules: {
-    // semi: ['error', 'never'] // uncomment if you want to remove ;
-  },
-  settings: {
-    // ...
   }
 }

@@ -1,11 +1,12 @@
-import App from './App.svelte';
-import './styles/styles.css';
+import App from './App.svelte'
+import 'material-icons/iconfont/material-icons.scss'
+import './styles/styles.scss'
 
 const app = new App({
-	target: document.body,
-	props: {
-		name: 'world'
-	}
-});
+  target: document.body,
+  props: {
+    name: 'world'
+  }
+})
 
-export default app;
+export default app

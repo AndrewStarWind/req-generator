@@ -1,5 +1,5 @@
 <script>
-   import { generate } from '../utils/generateOkpo';
+   import { generate } from '../utils/generateInn';
    import { copyTextToClipboard } from '../utils/copyToClipboard';
    import Textfield from '@smui/textfield';
    import Checkbox from '@smui/checkbox';
@@ -16,7 +16,7 @@
    <Textfield
       type="text"
       bind:value="{value}"
-      label="ОКПО:" /> 
+      label="ИНН:" /> 
    <FormField>
       <Checkbox bind:checked={isIE} />
       <span slot="label">ИП</span>

@@ -1,0 +1,32 @@
+.body {
+   font-size: 12px;
+}
+
+.content {
+   max-width: 600px;
+   margin-left: 10px;
+   margin-top: 10px;
+}
+
+.form-group {
+   display: flex;
+   width: 100%;
+   margin-bottom: 20px;
+   align-items: center
+}
+
+.form-group__actions {
+   display: flex;
+   margin-left: auto;
+}
+
+.icon {
+   padding-top: 0 !important;
+   padding-bottom: 0 !important;
+   margin-top: 12px !important;
+   cursor: pointer !important;
+}
+
+.input:placeholder-shown + .icon {
+   display: none !important;
+}
