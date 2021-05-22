@@ -1,5 +1,6 @@
 <script>
 	import OKPO from "./components/okpo.svelte";
+	import SNILS from "./components/snils.svelte";
 	import INN from "./components/inn.svelte";
 	import IIN from "./components/iin.svelte";
 	import UNP from "./components/unp.svelte";
@@ -38,6 +39,7 @@
 		<a target="_blank" href="https://github.com/AndrewStarWind/req-generator"
 			>GitHub</a
 		>
+		<p>ЮMoney (RUR): 410011464431934</p>
 	</Content>
 	<Actions>
 		<Button on:click={() => dialog.setOpen(false)}>
@@ -71,9 +73,11 @@
 		</Row>
 	</TopAppBar>
 	<INN />
-	<OKPO />
 	<IIN />
 	<UNP />
+	<br />
+	<SNILS />
+	<OKPO />
 </main>
 
 <style>

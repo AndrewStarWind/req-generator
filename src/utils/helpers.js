@@ -24,7 +24,10 @@ const generateDate = (start, end) => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 }
 
+const addZero = (number) => number < 10 ? ('0' + number) : +number
+
 export {
   generateValue,
-  generateDate
+  generateDate,
+  addZero
 }

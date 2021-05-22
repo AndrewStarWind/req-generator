@@ -1,4 +1,4 @@
-import { generateDate, generateValue } from './helpers'
+import { generateDate, generateValue, addZero } from './helpers'
 
 const WEIGHTS_1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 const WEIGHTS_2 = [3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2]
@@ -19,8 +19,6 @@ const getCheckSum = (value) => {
   }
   return checksum === BAD_CHECKSUM ? false : checksum
 }
-
-const addZero = (number) => number < 10 ? ('0' + number) : +number
 
 /**
  * Generates IIN
