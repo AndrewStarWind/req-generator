@@ -3,6 +3,7 @@ import { generateValue } from './helpers'
 const IE_INN_LENGTH = 10
 const ORG_INN_LENGTH = 9
 const WEIGHTS = [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]
+const FOREIGHT_START_DIGS = '9909'
 const ORG_CHECKSUM_INDEX = 9
 const CONTROL_SUM_FIRST_DIVIDER = 11
 const CONTROL_SUM_SECOND_DIVIDER = 10
@@ -26,8 +27,10 @@ const generateIEInn = () => {
   return value + sum
 }
 
-const generateOrgInn = () => {
-  const value = generateValue(ORG_INN_LENGTH)
+const generateOrgInn = (isForeign) => {
+  const value = isForeign
+    ? FOREIGHT_START_DIGS + generateValue(ORG_INN_LENGTH - FOREIGHT_START_DIGS.length)
+    : generateValue(ORG_INN_LENGTH)
   let sum = 0
 
   for (let i = 0, j = 2; i < ORG_CHECKSUM_INDEX; i++, j++) {
@@ -37,6 +40,6 @@ const generateOrgInn = () => {
   return value + sum
 }
 
-const generate = (isIE) => isIE ? generateIEInn() : generateOrgInn()
+const generate = (isIE, isForeign) => isIE ? generateIEInn() : generateOrgInn(isForeign)
 
 export { generate }

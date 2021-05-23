@@ -7,6 +7,7 @@
    import IconButton from "@smui/icon-button";
 
    let isIE = false;
+   let isForeign = false;
    let value = "";
 </script>
 
@@ -16,11 +17,17 @@
       <Checkbox bind:checked={isIE} />
       <span slot="label">ИП</span>
    </FormField>
+   {#if !isIE}
+      <FormField>
+         <Checkbox bind:checked={isForeign} />
+         <span slot="label">иностранец</span>
+      </FormField>
+   {/if}
    <div class="form-group__actions">
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = generate(isIE))}
+         on:click={() => (value = generate(isIE, isForeign))}
       >
          play_circle_outline
       </IconButton>

@@ -5,6 +5,7 @@
 	import IIN from "./components/iin.svelte";
 	import UNP from "./components/unp.svelte";
 	import OGRN from "./components/ogrn.svelte";
+	import KPP from "./components/kpp.svelte";
 	import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
 	import IconButton from "@smui/icon-button";
 	import Button, { Label } from "@smui/button";
@@ -77,6 +78,7 @@
 	<IIN />
 	<UNP />
 	<br />
+	<KPP />
 	<SNILS />
 	<OKPO />
 	<OGRN />
