@@ -38,7 +38,7 @@
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = isIE ? generateIin(id) : generateBin())}
+         on:click={() => (value = isIE ? generateIin(id || 3) : generateBin())}
       >
          play_circle_outline
       </IconButton>
