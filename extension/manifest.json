@@ -6,5 +6,8 @@
   "browser_action": {
     "default_popup": "index.html"
   },
-  "manifest_version": 2
+  "manifest_version": 2,
+  "icons": {
+     "128": "favicon.png"
+  }
 }

@@ -78,7 +78,7 @@ export default {
 
     copy({
       targets: [
-        { src: '/public/build/favicon.png', dest: '/public/build/favicon.png' }
+        { src: 'src/favicon.png', dest: 'public/' }
       ]
     })
 
