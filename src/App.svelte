@@ -4,6 +4,7 @@
 	import INN from "./components/inn.svelte";
 	import IIN from "./components/iin.svelte";
 	import UNP from "./components/unp.svelte";
+	import OGRN from "./components/ogrn.svelte";
 	import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
 	import IconButton from "@smui/icon-button";
 	import Button, { Label } from "@smui/button";
@@ -78,6 +79,7 @@
 	<br />
 	<SNILS />
 	<OKPO />
+	<OGRN />
 </main>
 
 <style>
