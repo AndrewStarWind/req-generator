@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import {terser} from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import scss from 'rollup-plugin-scss';
+import copy from 'rollup-plugin-copy'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -72,7 +73,15 @@ export default {
     // instead of npm run dev), minify
     production && terser(),
 
-    scss({ output: 'public/build/bundle.css'})
+    scss({ output: 'public/build/bundle.css'}),
+
+
+    copy({
+      targets: [
+        { src: '/public/build/favicon.png', dest: '/public/build/favicon.png' }
+      ]
+    })
+
   ],
   watch: {
     clearScreen: false,
