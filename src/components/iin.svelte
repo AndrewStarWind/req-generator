@@ -22,8 +22,7 @@
    <Textfield type="text" bind:value label="{isIE ? 'ИИН' : 'БИН'}:" />
 
    {#if isIE}
-      <Select bind:value={id} label="Пол:" class="select">
-         <Option value="" />
+      <Select bind:value={id} label="Пол:" class="select" displayEmpty={false}>
          {#each ids as item}
             <Option value={item.id}>{item.text}</Option>
          {/each}

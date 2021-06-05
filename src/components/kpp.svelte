@@ -21,7 +21,6 @@
 <div class="form-group">
    <Textfield type="text" bind:value label="КПП:" />
    <Select bind:value={type} label="ТИП/КФХ:" class="select">
-      <Option value="" />
       {#each types as item}
          <Option value={item.id}>{item.text}</Option>
       {/each}
