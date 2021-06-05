@@ -5,20 +5,22 @@
    import Textfield from "@smui/textfield";
    import IconButton from "@smui/icon-button";
    import Select, { Option } from "@smui/select";
+   import Store from "../utils/Store";
+   import History from "./history.svelte";
 
    let types = [
       { id: KPP_TYPES.registration, text: "По месту регистрации" },
       { id: KPP_TYPES.bigTaxPayer, text: "Крупнейший налогоплательщик" },
       { id: KPP_TYPES.envd, text: "ЕНВД" },
-      { id: KPP_TYPES.branch, text: "филиал" },
+      { id: KPP_TYPES.branch, text: "кпп филиала" },
    ];
    let type = "01";
-   let value = "";
+   let value = Store.getValue("KPP");
 </script>
 
 <div class="form-group">
    <Textfield type="text" bind:value label="КПП:" />
-   <Select bind:value={type} label="Тип:" class="select">
+   <Select bind:value={type} label="ТИП/КФХ:" class="select">
       <Option value="" />
       {#each types as item}
          <Option value={item.id}>{item.text}</Option>
@@ -39,5 +41,6 @@
       >
          content_copy
       </IconButton>
+      <History label="КПП" reqId="KPP" />
    </div>
 </div>

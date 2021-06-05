@@ -1,4 +1,4 @@
-import { generateValue } from './helpers'
+import { generateValue, generateWithHistory } from './helpers'
 import { KPP_TYPES } from './constants'
 
 const TYPE_CODE_GENERATORS = {
@@ -16,9 +16,11 @@ const TYPE_CODE_GENERATORS = {
   [KPP_TYPES.envd]: () => ['35', '77'][(Math.round(Math.random() * 10)) % 2]
 }
 
-const generate = (type) => type
+const _generate = (type) => type
   ? `${generateValue(4)}${TYPE_CODE_GENERATORS[type]()}${generateValue(3)}`
   : generateValue(9)
+
+const generate = (type) => generateWithHistory('KPP', _generate.bind(null, type))
 
 export {
   generate

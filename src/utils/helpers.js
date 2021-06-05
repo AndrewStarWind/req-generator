@@ -1,3 +1,5 @@
+import Store from './Store'
+
 /**
  * Generates random digits string with specified length
  *
@@ -26,8 +28,27 @@ const generateDate = (start, end) => {
 
 const addZero = (number) => number < 10 ? ('0' + number) : +number
 
+/**
+ * Generates item with history
+ *
+ * @param {*} id
+ * @param {*} generateFunc
+ * @return {*}
+ */
+const generateWithHistory = (id, generateFunc) => {
+  const history = Store.getHistory(id)
+  let value = generateFunc()
+
+  while (history.includes(value)) {
+    value = generateFunc()
+  }
+  Store.setValue(id, value)
+  return value
+}
+
 export {
   generateValue,
   generateDate,
-  addZero
+  addZero,
+  generateWithHistory
 }

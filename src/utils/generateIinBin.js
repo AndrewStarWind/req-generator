@@ -1,4 +1,4 @@
-import { generateDate, generateValue, addZero } from './helpers'
+import { generateDate, generateValue, addZero, generateWithHistory } from './helpers'
 
 const WEIGHTS_1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 const WEIGHTS_2 = [3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2]
@@ -32,7 +32,7 @@ const getCheckSum = (value) => {
  *
  * @return {*}
  */
-const generateIin = (id) => {
+const _generateIin = (id) => {
   // date of birth between 1900 and current date - 18 years
   const date = generateDate(
     new Date(BIRTH_START[id], 0, 1),
@@ -41,7 +41,6 @@ const generateIin = (id) => {
 
   // date  YY.MM.DD
   let value = `${date.getFullYear().toString().slice(2, 4)}${addZero(date.getMonth())}${addZero(date.getDate())}`
-  console.log(date)
   // century and sex
   // XX/male - 3, xx/female - 4, XXI/male - 5, XXI/female - 6
   value += id
@@ -59,7 +58,7 @@ const generateIin = (id) => {
  *
  * @return {*}
  */
-const generateBin = () => {
+const _generateBin = () => {
   const date = generateDate(new Date(1995, 0, 1), new Date())
 
   // registration date YY.MM
@@ -77,6 +76,9 @@ const generateBin = () => {
 
   return checksum === false ? generateBin() : value + checksum
 }
+
+const generateBin = () => generateWithHistory('BIN', _generateBin)
+const generateIin = (id) => generateWithHistory('IIN', _generateIin.bind(null, id))
 
 export {
   generateIin,

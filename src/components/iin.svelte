@@ -2,12 +2,12 @@
    import { generateIin, generateBin } from "../utils/generateIinBin";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Textfield from "@smui/textfield";
-   import Checkbox from "@smui/checkbox";
-   import FormField from "@smui/form-field";
    import IconButton from "@smui/icon-button";
    import Select, { Option } from "@smui/select";
+   import Store from "../utils/Store";
+   import History from "./history.svelte";
 
-   let isIE = false;
+   export let isIE;
    let ids = [
       { id: 3, text: "male XX" },
       { id: 4, text: "female XX" },
@@ -15,15 +15,11 @@
       { id: 6, text: "female XXI" },
    ];
    let id = 3;
-   let value = "";
+   let value = Store.getValue(isIE ? "IIN" : "BIN");
 </script>
 
 <div class="form-group">
    <Textfield type="text" bind:value label="{isIE ? 'ИИН' : 'БИН'}:" />
-   <FormField>
-      <Checkbox bind:checked={isIE} />
-      <span slot="label">ИП</span>
-   </FormField>
 
    {#if isIE}
       <Select bind:value={id} label="Пол:" class="select">
@@ -49,5 +45,6 @@
       >
          content_copy
       </IconButton>
+      <History label={isIE ? "ИИН" : "БИН"} reqId={isIE ? "IIN" : "BIN"} />
    </div>
 </div>

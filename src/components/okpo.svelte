@@ -2,20 +2,16 @@
    import { generate } from "../utils/generateOkpo";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Textfield from "@smui/textfield";
-   import Checkbox from "@smui/checkbox";
-   import FormField from "@smui/form-field";
    import IconButton from "@smui/icon-button";
+   import Store from "../utils/Store";
+   import History from "./history.svelte";
 
-   let isIE = false;
-   let value = "";
+   export let isIE;
+   let value = Store.getValue(isIE ? "OKPOIE" : "OKPO");
 </script>
 
 <div class="form-group">
-   <Textfield type="text" bind:value label="ОКПО:" />
-   <FormField>
-      <Checkbox bind:checked={isIE} />
-      <span slot="label">ИП</span>
-   </FormField>
+   <Textfield type="text" bind:value label="ОКПО{isIE ? ' ИП' : ''}:" />
    <div class="form-group__actions">
       <IconButton
          class="material-icons"
@@ -31,5 +27,9 @@
       >
          content_copy
       </IconButton>
+      <History
+         label={isIE ? "ОКПО ИП" : "ОКПО"}
+         reqId={isIE ? "OKPOIE" : "OKPO"}
+      />
    </div>
 </div>

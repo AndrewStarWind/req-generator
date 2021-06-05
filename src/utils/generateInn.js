@@ -1,4 +1,4 @@
-import { generateValue } from './helpers'
+import { generateValue, generateWithHistory } from './helpers'
 
 const IE_INN_LENGTH = 10
 const ORG_INN_LENGTH = 9
@@ -40,6 +40,9 @@ const generateOrgInn = (isForeign) => {
   return value + sum
 }
 
-const generate = (isIE, isForeign) => isIE ? generateIEInn() : generateOrgInn(isForeign)
+const generate = (isIE, isForeign) => generateWithHistory(
+  isIE ? 'INNIE' : 'INN',
+  isIE ? generateIEInn : generateOrgInn.bind(null, isForeign)
+)
 
 export { generate }

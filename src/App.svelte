@@ -1,4 +1,5 @@
 <script>
+	import Header from "./components/header.svelte";
 	import OKPO from "./components/okpo.svelte";
 	import SNILS from "./components/snils.svelte";
 	import INN from "./components/inn.svelte";
@@ -6,83 +7,50 @@
 	import UNP from "./components/unp.svelte";
 	import OGRN from "./components/ogrn.svelte";
 	import KPP from "./components/kpp.svelte";
-	import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
-	import IconButton from "@smui/icon-button";
-	import Button, { Label } from "@smui/button";
-	import Dialog, {
-		Title as DialogTitle,
-		Content,
-		Actions,
-	} from "@smui/dialog";
 
-	let dialog;
+	import Store from "./utils/Store";
 
-	const openOtherWindow = () => {
-		chrome.windows.create({
-			url: chrome.extension.getURL("index.html"),
-			type: "popup",
-		});
-	};
+	import Tab, { Label } from "@smui/tab";
+	import TabBar from "@smui/tab-bar";
+	let active = "РФ";
+	let isLoaded = false;
+
+	Store.init().then(() => {
+		isLoaded = true;
+	});
 </script>
 
-<Dialog
-	bind:this={dialog}
-	aria-labelledby="dialog-title"
-	aria-describedby="dialog-content"
->
-	<DialogTitle id="dialog-title">О приложении</DialogTitle>
-	<Content id="dialog-content">
-		<p>Приложение генерирует основные реквизиты компаний.</p>
-		<p>
-			Contact me on <a target="_blank" href="https://t.me/sevasdreas"
-				>Telegram</a
-			>
-		</p>
-		<a target="_blank" href="https://github.com/AndrewStarWind/req-generator"
-			>GitHub</a
-		>
-		<p>ЮMoney (RUR): 410011464431934</p>
-	</Content>
-	<Actions>
-		<Button on:click={() => dialog.setOpen(false)}>
-			<Label>Ok</Label>
-		</Button>
-	</Actions>
-</Dialog>
-
-<main class="content">
-	<TopAppBar variant="static" color="secondary">
-		<Row>
-			<Section class="header__title">
-				<Title>Requisites Generator</Title>
-			</Section>
-			<Section align="end">
-				<IconButton
-					class="material-icons"
-					on:click={openOtherWindow}
-					aria-label="Open in new window"
-				>
-					open_in_new
-				</IconButton>
-				<IconButton
-					class="material-icons"
-					on:click={() => dialog.setOpen(true)}
-					aria-label="About"
-				>
-					info
-				</IconButton>
-			</Section>
-		</Row>
-	</TopAppBar>
-	<INN />
-	<IIN />
-	<UNP />
-	<br />
-	<KPP />
-	<SNILS />
-	<OKPO />
-	<OGRN />
-</main>
+{#if isLoaded}
+	<div class="container">
+		<Header />
+		<TabBar tabs={["РФ", "Беларусь", "Казахстан"]} let:tab bind:active>
+			<Tab {tab} minWidth>
+				<Label>{tab}</Label>
+			</Tab>
+		</TabBar>
+		<main class="content">
+			{#if active === "РФ"}
+				<INN isIE={false} />
+				<INN isIE={true} />
+				<KPP />
+				<SNILS />
+				<OKPO isIE={false} />
+				<OKPO isIE={true} />
+				<OGRN isIE={false} />
+				<OGRN isIE={true} />
+			{/if}
+			{#if active === "Беларусь"}
+				<UNP isIE={false} />
+				<UNP isIE={true} />
+			{/if}
+			{#if active === "Казахстан"}
+				<IIN isIE={false} />
+				<IIN isIE={true} />
+			{/if}
+			<br />
+		</main>
+	</div>
+{/if}
 
 <style>
 </style>

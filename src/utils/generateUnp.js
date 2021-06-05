@@ -1,4 +1,4 @@
-import { generateValue } from './helpers'
+import { generateValue, generateWithHistory } from './helpers'
 
 const ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const ALPHABET_FOR_SECOND_LETTER = 'ABCEHKMOPT'
@@ -62,7 +62,9 @@ const generateIE = () => {
   return controlSum !== false ? (value + controlSum) : generateIE()
 }
 
-const generate = (isIE) => isIE ? generateIE() : generateOrg()
+const _generate = (isIE) => isIE ? generateIE() : generateOrg()
+
+const generate = (isIE) => generateWithHistory(isIE ? 'UNPIE' : 'UNP', _generate.bind(null, isIE))
 
 export {
   generate

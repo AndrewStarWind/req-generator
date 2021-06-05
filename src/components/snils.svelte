@@ -3,8 +3,10 @@
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Textfield from "@smui/textfield";
    import IconButton from "@smui/icon-button";
+   import Store from "../utils/Store";
+   import History from "./history.svelte";
 
-   let value = "";
+   let value = Store.getValue("SNILS");
 </script>
 
 <div class="form-group">
@@ -24,5 +26,6 @@
       >
          content_copy
       </IconButton>
+      <History label="СНИЛС" reqId="SNILS" />
    </div>
 </div>

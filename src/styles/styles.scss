@@ -3,14 +3,27 @@ body {
    font-size: 12px;
 }
 
-.content {
+.container {
    width: 600px;
+   height: 98vh;
+   min-height: 600px;
+   display: flex;
+   flex-direction: column;
+}
+
+.content {
+   overflow: auto;
+   height: 100%;
 }
 
 .form-group {
    display: flex;
    align-items: center;
    margin: 0 14px 20px 20px;
+}
+
+.form-group:last-child {
+   margin-bottom: 0;
 }
 
 .form-group__actions {
@@ -25,7 +38,6 @@ body {
    cursor: pointer !important;
 }
 
-
 .header__title {
    padding-left: 0;
 }
@@ -33,4 +45,21 @@ body {
 .select {
    flex-shrink: 2;
    margin-left: 12px;
+}
+
+
+::-webkit-scrollbar {
+   width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+   background: #666;
+}
+
+::-webkit-scrollbar-track {
+   background: #ddd;
+}
+
+.history {
+   max-height: 400px;
 }

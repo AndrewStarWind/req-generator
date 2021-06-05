@@ -1,4 +1,4 @@
-import { generateValue, addZero } from './helpers'
+import { generateValue, addZero, generateWithHistory } from './helpers'
 
 const CHECKSUM_FIRST_DIVIDER = 101
 const CONTROL_DIGITS_DIVIDER = 100
@@ -18,11 +18,13 @@ const getControlSum = (value) => {
   return (ctrlDigs % CHECKSUM_FIRST_DIVIDER) % CONTROL_DIGITS_DIVIDER
 }
 
-const generate = () => {
+const _generate = () => {
   const value = generateValue(9)
 
   return value + addZero(getControlSum(value))
 }
+
+const generate = () => generateWithHistory('SNILS', _generate)
 
 export {
   generate

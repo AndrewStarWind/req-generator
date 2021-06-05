@@ -1,22 +1,24 @@
 <script>
    import { generate } from "../utils/generateInn";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
-   import Textfield from "@smui/textfield";
    import Checkbox from "@smui/checkbox";
    import FormField from "@smui/form-field";
    import IconButton from "@smui/icon-button";
+   import Textfield from "@smui/textfield";
+   import Store from "../utils/Store";
+   import History from "./history.svelte";
 
-   let isIE = false;
+   export let isIE;
    let isForeign = false;
-   let value = "";
+   let value = Store.getValue(isIE ? "INNIE" : "INN");
 </script>
 
 <div class="form-group">
-   <Textfield type="text" bind:value label="ИНН:" />
-   <FormField>
-      <Checkbox bind:checked={isIE} />
-      <span slot="label">ИП</span>
-   </FormField>
+   <Textfield
+      type="text"
+      bind:value
+      label="{!isIE ? 'ИНН ЮЛ' : 'ИНН ИП/КФХ'}:"
+   />
    {#if !isIE}
       <FormField>
          <Checkbox bind:checked={isForeign} />
@@ -38,5 +40,9 @@
       >
          content_copy
       </IconButton>
+      <History
+         label={isIE ? "ИНН" : "ИНН ИП/КФХ"}
+         reqId={isIE ? "INNIE" : "INN"}
+      />
    </div>
 </div>

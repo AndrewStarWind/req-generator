@@ -1,4 +1,4 @@
-import { generateValue } from './helpers'
+import { generateValue, generateWithHistory } from './helpers'
 
 const WEIGHT_DIVIDER = 11
 const weightsStartValues = {
@@ -23,7 +23,7 @@ const okpoCheckSum = (value, start) => {
   return sum % CHECKSUM_DIVIDER
 }
 
-const generate = (isIE) => {
+const _generate = (isIE) => {
   const value = generateValue(isIE ? 9 : 7)
 
   let checksum = okpoCheckSum(value, weightsStartValues.FIRST)
@@ -33,5 +33,7 @@ const generate = (isIE) => {
   }
   return value + checksum
 }
+
+const generate = (isIE) => generateWithHistory(isIE ? 'OKPOIE' : 'OKPO', _generate.bind(null, isIE))
 
 export { generate }

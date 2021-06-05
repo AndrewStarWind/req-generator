@@ -6,6 +6,8 @@ import {terser} from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import scss from 'rollup-plugin-scss';
 import copy from 'rollup-plugin-copy'
+import postcss from 'rollup-plugin-postcss'
+import preprocess from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -45,6 +47,7 @@ export default {
         dev: !production,
         accessors: true
       },
+      preprocess: preprocess()
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
@@ -80,7 +83,8 @@ export default {
       targets: [
         { src: 'src/favicon.png', dest: 'public/' }
       ]
-    })
+    }),
+    postcss(),
 
   ],
   watch: {
