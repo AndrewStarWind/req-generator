@@ -7,10 +7,10 @@ import Store from './Store'
  * @return {string}
  */
 const generateValue = (length) => {
-  let value = Math.round(Math.random() * Math.pow(10, length)).toString()
+  let value = Math.floor(Math.random() * Math.pow(10, length)).toString()
 
   while (value.length < length) {
-    value = Math.round(Math.random() * 10).toString() + value
+    value = Math.floor(Math.random() * 10).toString() + value
   }
   return value
 }

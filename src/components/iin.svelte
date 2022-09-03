@@ -16,6 +16,14 @@
    ];
    let id = 3;
    let value = Store.getValue(isIE ? "IIN" : "BIN");
+
+   export const generate = () => value = isIE ? generateIin(id || 3) : generateBin()
+   const generateAndCopy = () => {
+      const generatedValue = generate()
+
+      copyTextToClipboard(generatedValue)
+      return generatedValue
+   }
 </script>
 
 <div class="form-group">
@@ -33,7 +41,7 @@
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = isIE ? generateIin(id || 3) : generateBin())}
+         on:click={generateAndCopy}
       >
          play_circle_outline
       </IconButton>

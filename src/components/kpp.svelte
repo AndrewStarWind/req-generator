@@ -1,5 +1,5 @@
 <script>
-   import { generate } from "../utils/generateKpp";
+   import { generate as generateKPP } from "../utils/generateKpp";
    import { KPP_TYPES } from "../utils/constants";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Textfield from "@smui/textfield";
@@ -16,6 +16,14 @@
    ];
    let type = "01";
    let value = Store.getValue("KPP");
+
+   export const generate = () => value = generateKPP(type)
+   const generateAndCopy = () => {
+      const generatedValue = generate()
+
+      copyTextToClipboard(generatedValue)
+      return generatedValue
+   }
 </script>
 
 <div class="form-group">
@@ -29,7 +37,7 @@
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = generate(type))}
+         on:click={generateAndCopy}
       >
          play_circle_outline
       </IconButton>

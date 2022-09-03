@@ -1,5 +1,5 @@
 <script>
-   import { generate } from "../utils/generateOkpo";
+   import { generate as generateOKPO } from "../utils/generateOkpo";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Textfield from "@smui/textfield";
    import IconButton from "@smui/icon-button";
@@ -8,6 +8,14 @@
 
    export let isIE;
    let value = Store.getValue(isIE ? "OKPOIE" : "OKPO");
+
+   export const generate = () => value = generateOKPO(isIE)
+   const generateAndCopy = () => {
+      const generatedValue = generate()
+
+      copyTextToClipboard(generatedValue)
+      return generatedValue
+   }
 </script>
 
 <div class="form-group">
@@ -16,7 +24,7 @@
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = generate(isIE))}
+         on:click={generateAndCopy}
       >
          play_circle_outline
       </IconButton>

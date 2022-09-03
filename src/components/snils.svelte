@@ -1,5 +1,5 @@
 <script>
-   import { generate } from "../utils/generateSnils";
+   import { generate as generateSNILS } from "../utils/generateSnils";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Textfield from "@smui/textfield";
    import IconButton from "@smui/icon-button";
@@ -7,6 +7,14 @@
    import History from "./history.svelte";
 
    let value = Store.getValue("SNILS");
+
+   export const generate = () => value = generateSNILS()
+   const generateAndCopy = () => {
+      const generatedValue = generate()
+
+      copyTextToClipboard(generatedValue)
+      return generatedValue
+   }
 </script>
 
 <div class="form-group">
@@ -15,7 +23,7 @@
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = generate())}
+         on:click={generateAndCopy}
       >
          play_circle_outline
       </IconButton>

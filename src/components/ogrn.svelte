@@ -1,5 +1,5 @@
 <script>
-   import { generate } from "../utils/generateOgrn";
+   import { generate as generateOGRN } from "../utils/generateOgrn";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Textfield from "@smui/textfield";
    import IconButton from "@smui/icon-button";
@@ -8,6 +8,14 @@
 
    export let isIE;
    let value = Store.getValue(isIE ? "OGRNIP" : "OGRN");
+
+   export const generate = () => value = generateOGRN(isIE)
+   const generateAndCopy = () => {
+      const generatedValue = generate()
+
+      copyTextToClipboard(generatedValue)
+      return generatedValue
+   }
 </script>
 
 <div class="form-group">
@@ -16,7 +24,7 @@
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = generate(isIE))}
+         on:click={generateAndCopy}
       >
          play_circle_outline
       </IconButton>

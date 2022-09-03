@@ -1,4 +1,5 @@
 <script>
+   import { createEventDispatcher } from 'svelte';
    import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
    import IconButton from "@smui/icon-button";
    import Button, { Label } from "@smui/button";
@@ -9,6 +10,8 @@
    } from "@smui/dialog";
 
    let dialog;
+
+   const dispatch = createEventDispatcher();
 
    const openOtherWindow = () => {
       chrome.windows.create({
@@ -48,6 +51,13 @@
          <Title>Requisites Generator</Title>
       </Section>
       <Section align="end">
+         <IconButton
+            class="material-icons"
+            title="Generate"
+            on:click={() => dispatch('generateAll', {}) }
+         >
+            play_circle_outline
+      </IconButton>
          <IconButton
             class="material-icons"
             on:click={openOtherWindow}

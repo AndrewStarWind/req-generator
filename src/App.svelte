@@ -12,8 +12,14 @@
 
 	import Tab, { Label } from "@smui/tab";
 	import TabBar from "@smui/tab-bar";
-	let active = "РФ";
+	let active = "РФ ЮЛ";
 	let isLoaded = false;
+	let callbacks = [];
+
+	const onGenerateAll = () => {
+		callbacks.forEach(f => f())
+		console.log(111);
+	}
 
 	Store.init().then(() => {
 		isLoaded = true;
@@ -22,30 +28,32 @@
 
 {#if isLoaded}
 	<div class="container">
-		<Header />
-		<TabBar tabs={["РФ", "Беларусь", "Казахстан"]} let:tab bind:active>
+		<Header on:generateAll={ () => onGenerateAll() } />
+		<TabBar tabs={["РФ ЮЛ", "РФ ИП", "Беларусь", "Казахстан"]} let:tab bind:active>
 			<Tab {tab} minWidth>
 				<Label>{tab}</Label>
 			</Tab>
 		</TabBar>
 		<main class="content">
-			{#if active === "РФ"}
-				<INN isIE={false} />
-				<INN isIE={true} />
-				<KPP />
-				<SNILS />
-				<OKPO isIE={false} />
-				<OKPO isIE={true} />
-				<OGRN isIE={false} />
-				<OGRN isIE={true} />
+			{#if active === "РФ ЮЛ"}
+				<INN isIE={false} bind:generate={callbacks[0]}/>
+				<KPP bind:generate={callbacks[1]} />
+				<OKPO isIE={false} bind:generate={callbacks[2]} />
+				<OGRN isIE={false} bind:generate={callbacks[3]} />
+			{/if}
+			{#if active === "РФ ИП"}
+				<INN isIE={true} bind:generate={callbacks[0]} />
+				<SNILS bind:generate={callbacks[1]} />
+				<OKPO bind:generate={callbacks[2]} isIE={true} />
+				<OGRN bind:generate={callbacks[3]} isIE={true} />
 			{/if}
 			{#if active === "Беларусь"}
-				<UNP isIE={false} />
-				<UNP isIE={true} />
+				<UNP bind:generate={callbacks[0]} isIE={false} />
+				<UNP bind:generate={callbacks[1]} isIE={true} />
 			{/if}
 			{#if active === "Казахстан"}
-				<IIN isIE={false} />
-				<IIN isIE={true} />
+				<IIN bind:generate={callbacks[0]} isIE={false} />
+				<IIN bind:generate={callbacks[1]} isIE={true} />
 			{/if}
 			<br />
 		</main>

@@ -1,5 +1,5 @@
 <script>
-   import { generate } from "../utils/generateInn";
+   import { generate as generateINN } from "../utils/generateInn";
    import { copyTextToClipboard } from "../utils/copyToClipboard";
    import Checkbox from "@smui/checkbox";
    import FormField from "@smui/form-field";
@@ -11,6 +11,14 @@
    export let isIE;
    let isForeign = false;
    let value = Store.getValue(isIE ? "INNIE" : "INN");
+
+   export const generate = () => value = generateINN(isIE, isForeign)
+   const generateAndCopy = () => {
+      const generatedValue = generate()
+
+      copyTextToClipboard(generatedValue)
+      return generatedValue
+   }
 </script>
 
 <div class="form-group">
@@ -29,7 +37,7 @@
       <IconButton
          class="material-icons"
          title="Generate"
-         on:click={() => (value = generate(isIE, isForeign))}
+         on:click={generateAndCopy}
       >
          play_circle_outline
       </IconButton>
