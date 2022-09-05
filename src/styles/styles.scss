@@ -47,6 +47,11 @@ body {
    margin-left: 12px;
 }
 
+.select__item {
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow: hidden;
+}
 
 ::-webkit-scrollbar {
    width: 2px;
