@@ -1,5 +1,5 @@
 <script>
-   import { createEventDispatcher } from 'svelte';
+   import { createEventDispatcher } from "svelte";
    import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
    import IconButton from "@smui/icon-button";
    import Button, { Label } from "@smui/button";
@@ -14,10 +14,11 @@
    const dispatch = createEventDispatcher();
 
    const openOtherWindow = () => {
-      chrome.windows.create({
-         url: chrome.extension.getURL("index.html"),
-         type: "popup",
-      });
+      const url = chrome.runtime.getURL("index.html");
+      const target = "_blank";
+      const features = "top=100,left=100,width=615,height=650,popup=true";
+
+      window.open(url, target, features);
    };
 </script>
 
@@ -41,7 +42,7 @@
    </Content>
    <Actions>
       <Button on:click={() => dialog.setOpen(false)}>
-         <Label>Ok</Label>
+         <Label>OK</Label>
       </Button>
    </Actions>
 </Dialog>
@@ -54,10 +55,10 @@
          <IconButton
             class="material-icons"
             title="Generate"
-            on:click={() => dispatch('generateAll', {}) }
+            on:click={() => dispatch("generateAll", {})}
          >
             play_circle_outline
-      </IconButton>
+         </IconButton>
          <IconButton
             class="material-icons"
             on:click={openOtherWindow}
