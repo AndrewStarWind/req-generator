@@ -14,11 +14,12 @@
    const dispatch = createEventDispatcher();
 
    const openOtherWindow = () => {
-      const url = chrome.runtime.getURL("index.html");
-      const target = "_blank";
-      const features = "top=100,left=100,width=615,height=650,popup=true";
-
-      window.open(url, target, features);
+      chrome.windows.create({
+          url: "index.html",
+          type: "popup",
+          width: 615,
+          height: 650
+      })
    };
 </script>
 

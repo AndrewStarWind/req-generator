@@ -18,7 +18,6 @@
 
 	const onGenerateAll = () => {
 		callbacks.forEach(f => f())
-		console.log(111);
 	}
 
 	Store.init().then(() => {
