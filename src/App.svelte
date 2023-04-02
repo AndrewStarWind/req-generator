@@ -7,12 +7,14 @@
 	import UNP from "./components/unp.svelte";
 	import OGRN from "./components/ogrn.svelte";
 	import KPP from "./components/kpp.svelte";
+	import UUID from "./components/uuid.svelte"
 
 	import Store from "./utils/Store";
 
 	import Tab, { Label } from "@smui/tab";
 	import TabBar from "@smui/tab-bar";
-	let active = "РФ ЮЛ";
+	const tabs = ["RU ЮЛ", "RU ИП", "BY", "KZ", "Other"];
+	let active = tabs[0];
 	let isLoaded = false;
 	let callbacks = [];
 
@@ -28,31 +30,34 @@
 {#if isLoaded}
 	<div class="container">
 		<Header on:generateAll={ () => onGenerateAll() } />
-		<TabBar tabs={["РФ ЮЛ", "РФ ИП", "Беларусь", "Казахстан"]} let:tab bind:active>
+		<TabBar tabs={tabs} let:tab bind:active>
 			<Tab {tab} minWidth>
 				<Label>{tab}</Label>
 			</Tab>
 		</TabBar>
 		<main class="content">
-			{#if active === "РФ ЮЛ"}
+			{#if active === tabs[0]}
 				<INN isIE={false} bind:generate={callbacks[0]}/>
 				<KPP bind:generate={callbacks[1]} />
 				<OKPO isIE={false} bind:generate={callbacks[2]} />
 				<OGRN isIE={false} bind:generate={callbacks[3]} />
 			{/if}
-			{#if active === "РФ ИП"}
+			{#if active === tabs[1]}
 				<INN isIE={true} bind:generate={callbacks[0]} />
 				<SNILS bind:generate={callbacks[1]} />
 				<OKPO bind:generate={callbacks[2]} isIE={true} />
 				<OGRN bind:generate={callbacks[3]} isIE={true} />
 			{/if}
-			{#if active === "Беларусь"}
+			{#if active === tabs[2]}
 				<UNP bind:generate={callbacks[0]} isIE={false} />
 				<UNP bind:generate={callbacks[1]} isIE={true} />
 			{/if}
-			{#if active === "Казахстан"}
+			{#if active === tabs[3]}
 				<IIN bind:generate={callbacks[0]} isIE={false} />
 				<IIN bind:generate={callbacks[1]} isIE={true} />
+			{/if}
+			{#if active === tabs[4]}
+				<UUID bind:generate={callbacks[0]} />
 			{/if}
 			<br />
 		</main>
