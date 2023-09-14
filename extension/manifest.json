@@ -1,6 +1,6 @@
 {
   "name": "Requisites Generator",
-  "version": "1.3",
+  "version": "1.50",
   "description": "Generates INN, OKPO, SNILS, BIN, IIN, UNP",
   "action": {
     "default_popup": "index.html"

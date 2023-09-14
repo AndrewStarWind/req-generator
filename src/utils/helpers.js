@@ -46,9 +46,19 @@ const generateWithHistory = (id, generateFunc) => {
   return value
 }
 
+/**
+ * Generate random int
+ * @param {number} max
+ * @returns
+ */
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * max);
+}
+
 export {
   generateValue,
   generateDate,
   addZero,
-  generateWithHistory
+  generateWithHistory,
+  getRandomInt
 }

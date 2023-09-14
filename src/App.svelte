@@ -8,12 +8,13 @@
 	import OGRN from "./components/ogrn.svelte";
 	import KPP from "./components/kpp.svelte";
 	import UUID from "./components/uuid.svelte"
+	import INNUZ from "./components/innuz.svelte"
 
 	import Store from "./utils/Store";
 
 	import Tab, { Label } from "@smui/tab";
 	import TabBar from "@smui/tab-bar";
-	const tabs = ["RU ЮЛ", "RU ИП", "BY", "KZ", "Other"];
+	const tabs = ["RU ЮЛ", "RU ИП", "BY", "KZ", "UZ", "Other"];
 	let active = tabs[0];
 	let isLoaded = false;
 	let callbacks = [];
@@ -57,6 +58,10 @@
 				<IIN bind:generate={callbacks[1]} isIE={true} />
 			{/if}
 			{#if active === tabs[4]}
+				<INNUZ bind:generate={callbacks[0]} isIE={false} />
+				<INNUZ bind:generate={callbacks[1]} isIE={true} />
+			{/if}
+			{#if active === tabs[5]}
 				<UUID bind:generate={callbacks[0]} />
 			{/if}
 			<br />
