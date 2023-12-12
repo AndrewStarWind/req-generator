@@ -8,6 +8,7 @@
 	import OGRN from "./components/ogrn.svelte";
 	import KPP from "./components/kpp.svelte";
 	import UUID from "./components/uuid.svelte"
+	import GLN from "./components/gln.svelte"
 	import INNUZ from "./components/innuz.svelte"
 
 	import Store from "./utils/Store";
@@ -63,6 +64,7 @@
 			{/if}
 			{#if active === tabs[5]}
 				<UUID bind:generate={callbacks[0]} />
+				<GLN bind:generate={callbacks[1]} />
 			{/if}
 			<br />
 		</main>
