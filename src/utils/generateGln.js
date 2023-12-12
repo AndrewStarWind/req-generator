@@ -20,10 +20,10 @@ const generate = generateWithHistory.bind(null, 'GLN', () => {
   total += ~~(base / 100 % 10) * 1;  // 11
   total += ~~(base / 10 % 10) * 3;  // 12
 
-  const check_digit = Math.abs(total - Math.ceil(total / 10.0) * 10);
+  const checkDigit = Math.abs(total - Math.ceil(total / 10.0) * 10);
   const result = base.toString();
 
-  return result.substr(0, 12) + check_digit.toString();
+  return result.substr(0, 12) + checkDigit.toString();
 })
 
 export {
