@@ -1,7 +1,10 @@
 import { generateWithHistory } from './helpers'
 
 const generate = generateWithHistory.bind(null, 'GLN', () => {
-  var base = Number(Math.random().toString().substr(2, 13));
+  /* The algorithm for calculating the check sum: https://www.gs1.org/services/how-calculate-check-digit-manually
+   * Check digit calculator: https://www.gs1.org/services/check-digit-calculator
+   */
+  const base = Number(Math.random().toString().substr(2, 13));
 
   // Calculate check digit
   var total = ~~(base / 1000000000000 % 10) * 1;  // 1
@@ -17,8 +20,8 @@ const generate = generateWithHistory.bind(null, 'GLN', () => {
   total += ~~(base / 100 % 10) * 1;  // 11
   total += ~~(base / 10 % 10) * 3;  // 12
 
-  var check_digit = Math.abs(total - Math.ceil(total / 10.0) * 10);
-  var result = base.toString();
+  const check_digit = Math.abs(total - Math.ceil(total / 10.0) * 10);
+  const result = base.toString();
 
   return result.substr(0, 12) + check_digit.toString();
 })
