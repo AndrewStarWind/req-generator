@@ -8,6 +8,7 @@
 	import OGRN from "./components/ogrn.svelte";
 	import KPP from "./components/kpp.svelte";
 	import UUID from "./components/uuid.svelte"
+	import GLN from "./components/gln.svelte"
 	import INNUZ from "./components/innuz.svelte"
 
 	import Store from "./utils/Store";
@@ -42,27 +43,33 @@
 				<KPP bind:generate={callbacks[1]} />
 				<OKPO isIE={false} bind:generate={callbacks[2]} />
 				<OGRN isIE={false} bind:generate={callbacks[3]} />
+				<GLN bind:generate={callbacks[4]} />
 			{/if}
 			{#if active === tabs[1]}
 				<INN isIE={true} bind:generate={callbacks[0]} />
 				<SNILS bind:generate={callbacks[1]} />
 				<OKPO bind:generate={callbacks[2]} isIE={true} />
 				<OGRN bind:generate={callbacks[3]} isIE={true} />
+				<GLN bind:generate={callbacks[4]} />
 			{/if}
 			{#if active === tabs[2]}
 				<UNP bind:generate={callbacks[0]} isIE={false} />
 				<UNP bind:generate={callbacks[1]} isIE={true} />
+				<GLN bind:generate={callbacks[2]} />
 			{/if}
 			{#if active === tabs[3]}
 				<IIN bind:generate={callbacks[0]} isIE={false} />
 				<IIN bind:generate={callbacks[1]} isIE={true} />
+				<GLN bind:generate={callbacks[2]} />
 			{/if}
 			{#if active === tabs[4]}
 				<INNUZ bind:generate={callbacks[0]} isIE={false} />
 				<INNUZ bind:generate={callbacks[1]} isIE={true} />
+				<GLN bind:generate={callbacks[2]} />
 			{/if}
 			{#if active === tabs[5]}
 				<UUID bind:generate={callbacks[0]} />
+				<GLN bind:generate={callbacks[1]} />
 			{/if}
 			<br />
 		</main>
