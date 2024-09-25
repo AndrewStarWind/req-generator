@@ -10,6 +10,7 @@
 	import UUID from "./components/uuid.svelte"
 	import GLN from "./components/gln.svelte"
 	import INNUZ from "./components/innuz.svelte"
+	import SFR from "./components/sfr.svelte"
 
 	import Store from "./utils/Store";
 
@@ -39,11 +40,12 @@
 		</TabBar>
 		<main class="content">
 			{#if active === tabs[0]}
-				<INN isIE={false} bind:generate={callbacks[0]}/>
+				<INN isIE={false} bind:generate={callbacks[0]} />
 				<KPP bind:generate={callbacks[1]} />
 				<OKPO isIE={false} bind:generate={callbacks[2]} />
 				<OGRN isIE={false} bind:generate={callbacks[3]} />
 				<GLN bind:generate={callbacks[4]} />
+				<SFR bind:generate={callbacks[5]} />
 			{/if}
 			{#if active === tabs[1]}
 				<INN isIE={true} bind:generate={callbacks[0]} />
@@ -51,6 +53,7 @@
 				<OKPO bind:generate={callbacks[2]} isIE={true} />
 				<OGRN bind:generate={callbacks[3]} isIE={true} />
 				<GLN bind:generate={callbacks[4]} />
+				<SFR bind:generate={callbacks[5]} />
 			{/if}
 			{#if active === tabs[2]}
 				<UNP bind:generate={callbacks[0]} isIE={false} />
