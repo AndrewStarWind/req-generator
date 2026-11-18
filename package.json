@@ -1,6 +1,6 @@
 {
   "name": "req-generator",
-  "version": "1.6.0",
+  "version": "1.60",
   "private": true,
   "type": "module",
   "scripts": {

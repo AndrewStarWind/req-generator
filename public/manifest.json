@@ -1,6 +1,6 @@
 {
   "name": "Requisites Generator",
-  "version": "1.6.0",
+  "version": "1.60",
   "description": "Generates and validates INN, KPP, OKPO, SNILS, OGRN, SFR, GLN, UNP, BIN, IIN, PINFL, UUID",
   "action": {
     "default_popup": "index.html"
