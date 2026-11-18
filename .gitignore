@@ -3,3 +3,4 @@
 /public/*.zip
 
 .DS_Store
+/dist/
