@@ -1,9 +1,12 @@
 import { pad2, toDigits } from '../validators/common'
-import { pinflChecksum } from '../validators/uz'
+import { innUzChecksum, pinflChecksum } from '../validators/uz'
 import { adultBirthLimit, randomDate, randomDigits, randomItem } from './random'
 
-/** ИНН (СТИР) организации: начинается с 2 или 3, всего 9 цифр. */
-export const generateInnUz = (): string => `${randomItem('23')}${randomDigits(8)}`
+/** ИНН (СТИР) организации: начинается с 2 или 3, 8 цифр + контрольная. */
+export const generateInnUz = (): string => {
+  const body = `${randomItem('23')}${randomDigits(7)}`
+  return body + innUzChecksum(toDigits(body))
+}
 
 // 1-я цифра ПИНФЛ - век рождения и пол: 3/4 - XX век, 5/6 - XXI век (нечётные - мужской)
 const PINFL_BIRTH_RANGE: Record<string, () => [Date, Date]> = {

@@ -20,11 +20,10 @@ const VALID: Array<[Validator, string]> = [
   [validateOkpoOrg, '00032537'], // ОКПО ПАО Сбербанк
   [validateSnils, '11223344595'],
   [validateGln, '4006381333931'], // пример EAN-13 из стандарта GS1
-  [validateBin, '000740001307'],
-  [validateIin, '850301450124'],
   [validateUnp, '100582333'],
   [validateUnpIe, 'AB1234563'],
-  [validatePinfl, '31503850180015']
+  [validatePinfl, '31503850180015'],
+  [validateInnUz, '201234564']
 ]
 
 describe.each(VALID)('%s: %s', (validate, value) => {
@@ -134,7 +133,25 @@ describe('ОКПО', () => {
   })
 })
 
-describe('ИИН / БИН', () => {
+describe('ИИН / БИН (логика бэкенда)', () => {
+  it('принимает корректные номера', () => {
+    expect(validateBin('000740001307').status).toBe(STATUS.VALID)
+    expect(validateIin('850301450124').status).toBe(STATUS.VALID)
+  })
+
+  it('ИИН и БИН: неверная контрольная сумма - только предупреждение', () => {
+    expect(validateIin('850301450125').status).toBe(STATUS.WARNING)
+    expect(validateIin('850301450125').message).toMatch(/ожидается 4/)
+    expect(validateBin('000740001308').status).toBe(STATUS.WARNING)
+  })
+
+  it('5-я цифра 7–9: проверяется только контрольная сумма', () => {
+    const body = '00078000000'
+    const ok = [...Array(10).keys()].map((d) => body + d).find((v) => validateBin(v).status !== STATUS.INVALID)!
+    expect(validateBin(ok).status).toBe(STATUS.WARNING)
+    expect(validateBin(breakLastDigit(ok)).status).toBe(STATUS.INVALID)
+  })
+
   it('расшифровывает дату рождения и пол', () => {
     const result = validateIin('850301450124')
     expect(detail(result, 'Дата рождения')).toBe('01.03.1985')
@@ -145,13 +162,30 @@ describe('ИИН / БИН', () => {
     expect(validateIin('921120650002').status).toBe(STATUS.WARNING)
   })
 
-  it('отклоняет несуществующую дату', () => {
-    // 31.02.1985: контрольная сумма верна, но такой даты нет
-    expect(validateIin('850231450124').message).toBe('Несуществующая дата рождения: 31.02.1985')
+  it('ИИН: 31.02 бэкенд пропускает (день 1–31) - предупреждение', () => {
+    const result = validateIin('850231450124')
+    expect(result.status).toBe(STATUS.WARNING)
+    expect(result.message).toMatch(/Несуществующая дата рождения: 31\.02\.1985/)
   })
 
-  it('БИН: отклоняет тип не из 4–6', () => {
-    expect(validateBin('850301450124').message).toMatch(/5-я цифра/)
+  it('ИИН: отклоняет месяц, день и век вне диапазона', () => {
+    expect(validateIin('851301450124').message).toMatch(/месяц/)
+    expect(validateIin('850132450124').message).toMatch(/день/)
+    expect(validateIin('850301750124').message).toMatch(/7-я цифра/)
+  })
+
+  it('ИИН: БИН юрлица - «перепутан», БИН ИП(С) принимается', () => {
+    expect(validateIin('000740001307').message).toMatch(/Перепутан ИИН и БИН/)
+    expect(validateIin('000760001307').status).not.toBe(STATUS.INVALID)
+  })
+
+  it('БИН: принимает ИИН', () => {
+    expect(validateBin('850301450124').status).toBe(STATUS.VALID)
+  })
+
+  it('БИН: отклоняет месяц и признак вне диапазона', () => {
+    expect(validateBin('001340001307').message).toMatch(/месяц/)
+    expect(validateBin('000745001307').message).toMatch(/6-я цифра/)
   })
 
   it('БИН: расшифровывает тип', () => {
@@ -187,16 +221,17 @@ describe('ПИНФЛ', () => {
     // 15.03.2099
     expect(validatePinfl('61503990180015').status).toBe(STATUS.WARNING)
   })
+
+  it('век и дату бэкенд не проверяет - предупреждение', () => {
+    const body = '9150385018001'
+    const value = body + [...body].reduce((sum, d, i) => sum + Number(d) * [7, 3, 1][i % 3]!, 0) % 10
+    expect(validatePinfl(value).status).toBe(STATUS.WARNING)
+  })
 })
 
 describe('проверки только формата', () => {
-  it('СФР и ИНН UZ принимают любые цифры нужной длины', () => {
+  it('СФР принимает любые цифры нужной длины', () => {
     expect(validateSfr('1234567890').status).toBe(STATUS.VALID)
-    expect(validateInnUz('212345678').status).toBe(STATUS.VALID)
-  })
-
-  it('ИНН UZ не начинается с 0', () => {
-    expect(validateInnUz('012345678').status).toBe(STATUS.WARNING)
   })
 })
 

@@ -11,7 +11,6 @@ const LIGATURES = {
   copy: 'content_copy',
   history: 'history',
   openInNew: 'open_in_new',
-  info: 'info',
   check: 'check',
   checkCircle: 'check_circle',
   error: 'error',
