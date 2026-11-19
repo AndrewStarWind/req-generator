@@ -46,7 +46,11 @@ export default function Select ({ label, value, onChange, options, width = '11re
     >
       <span className='min-w-0 flex-1 whitespace-normal'>
         {item.label}
-        {item.codeLabel && <span className='ms-2 text-fg-muted'>{item.codeLabel}</span>}
+        {item.codeLabel && (
+          <span className='ms-2 inline-block whitespace-nowrap rounded-full bg-chip px-2 py-0.5 align-middle text-xs font-semibold tabular-nums text-primary'>
+            {item.codeLabel}
+          </span>
+        )}
       </span>
       <ChakraSelect.ItemIndicator />
     </ChakraSelect.Item>
