@@ -1,5 +1,6 @@
 import { type Detail, toDigits, warning, weightedSum } from './common'
 import { ALPHANUMERIC, defineValidator } from './define'
+import { describeKppCode } from '../kpp'
 
 export const INN_ORG_WEIGHTS = [2, 4, 10, 3, 5, 9, 4, 6, 8]
 export const INN_PERSON_WEIGHTS_11 = [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]
@@ -40,11 +41,6 @@ export const validateInnPerson = defineValidator({
   validMessage: 'Корректный ИНН физлица / ИП'
 })
 
-const KPP_REASONS: Record<string, string> = {
-  '01': 'по месту нахождения организации',
-  50: 'крупнейший налогоплательщик'
-}
-
 /** КПП: NNNN PP XXX. Контрольной суммы нет - проверяется только структура. */
 export const validateKpp = defineValidator({
   length: 9,
@@ -52,7 +48,7 @@ export const validateKpp = defineValidator({
   pattern: { regex: /^\d{4}[\dA-Z]{2}\d{3}$/, message: 'Формат: 4 цифры, 2 цифры или буквы, 3 цифры' },
   details: (value) => {
     const reason = value.slice(4, 6)
-    const reasonText = KPP_REASONS[reason]
+    const reasonText = describeKppCode(reason)
     return [
       ['Налоговый орган', value.slice(0, 4)],
       ['Причина постановки', reasonText ? `${reason} — ${reasonText}` : reason]

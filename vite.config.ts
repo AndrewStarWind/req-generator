@@ -12,8 +12,8 @@ export default defineConfig({
     emptyOutDir: true
   },
   test: {
-    // тестируются только валидаторы и генераторы - чистые функции, DOM не нужен
+    // Генераторы, валидаторы, справочники и хранилище не требуют DOM.
     environment: 'node',
-    include: ['src/validators/**/*.test.ts', 'src/generators/**/*.test.ts']
+    include: ['src/**/*.test.ts']
   }
 })

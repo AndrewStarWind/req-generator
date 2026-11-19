@@ -3,6 +3,9 @@ import {
   ogrnChecksum, okpoChecksum, snilsChecksum
 } from '../validators/ru'
 import { randomDigits, randomInt, randomItem } from './random'
+import { getKppReason, KPP_TYPES, type KppType } from '../kpp'
+
+export { KPP_TYPES, type KppType } from '../kpp'
 
 /** Первые две цифры ИНН - код региона; региона 00 не существует. */
 const digitsWithRegion = (length: number): string => {
@@ -26,30 +29,9 @@ export const generateInnPerson = (): string => {
   return withFirst + innChecksum(INN_PERSON_WEIGHTS_12)(withFirst)
 }
 
-export const KPP_TYPES = {
-  registration: '01',
-  bigTaxPayer: '50',
-  envd: '35/77',
-  branch: 'branch'
-} as const
-
-export type KppType = typeof KPP_TYPES[keyof typeof KPP_TYPES]
-
-const KPP_REASON: Record<KppType, () => string> = {
-  [KPP_TYPES.registration]: () => '01',
-  [KPP_TYPES.bigTaxPayer]: () => '50',
-  [KPP_TYPES.envd]: () => randomItem(['35', '77']),
-  // любой код, кроме кодов головной организации
-  [KPP_TYPES.branch]: () => {
-    let reason = randomDigits(2)
-    while (reason === '01' || reason === '50') reason = randomDigits(2)
-    return reason
-  }
-}
-
 /** КПП: код налогового органа (4) + причина постановки (2) + номер (3). */
 export const generateKpp = (type: KppType = KPP_TYPES.registration): string =>
-  `${randomDigits(4)}${KPP_REASON[type]()}${randomDigits(3)}`
+  `${randomDigits(4)}${randomItem(getKppReason(type).codes)}${randomDigits(3)}`
 
 /** ОКПО: 8 цифр у юрлица, 10 - у ИП. */
 export const generateOkpo = (isIE: boolean): string => {
