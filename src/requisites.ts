@@ -1,8 +1,10 @@
 import {
   generateBin, generateGln, generateIin, generateInnOrg, generateInnPerson, generateInnUz, generateKpp,
   generateOgrn, generateOgrnip, generateOkpo, generatePinfl, generateSfr, generateSnils, generateUnp,
-  generateUnpIe, generateUuid, type IinCenturySex, KPP_TYPES, type KppType
+  generateUnpIe, generateUuid, type IinCenturySex
 } from './generators'
+import { KPP_GROUPS, KPP_REASONS, KPP_TYPES, normalizeKppType } from './kpp'
+import type { SelectItem } from './components/ui/Select'
 import {
   validateBin, validateGln, validateIin, validateInnOrg, validateInnPerson, validateInnUz,
   validateKpp, validateOgrn, validateOgrnip, validateOkpoIe, validateOkpoOrg, validatePinfl,
@@ -22,7 +24,7 @@ export interface SelectOption {
   type: 'select'
   label: string
   defaultValue: string
-  items: ReadonlyArray<{ value: string, label: string }>
+  items: readonly SelectItem[]
 }
 
 export type RequisiteOption = CheckboxOption | SelectOption
@@ -36,9 +38,6 @@ interface RequisiteDefinition {
   /** Необязательный доп. контрол генератора */
   option?: RequisiteOption
 }
-
-const KPP_TYPE_VALUES: readonly string[] = Object.values(KPP_TYPES)
-const isKppType = (value: unknown): value is KppType => typeof value === 'string' && KPP_TYPE_VALUES.includes(value)
 
 const IIN_CENTURY_SEX: readonly number[] = [3, 4, 5, 6]
 const toIinCenturySex = (value: unknown): IinCenturySex | undefined =>
@@ -60,17 +59,18 @@ const DEFINITIONS = {
   KPP: {
     label: 'КПП',
     validate: validateKpp,
-    generate: (type) => generateKpp(isKppType(type) ? type : undefined),
+    generate: (type) => generateKpp(normalizeKppType(type)),
     option: {
       type: 'select',
-      label: 'Тип',
+      label: 'Причина постановки на учёт',
       defaultValue: KPP_TYPES.registration,
-      items: [
-        { value: KPP_TYPES.registration, label: 'По месту регистрации' },
-        { value: KPP_TYPES.bigTaxPayer, label: 'Крупнейший налогоплательщик' },
-        { value: KPP_TYPES.envd, label: 'ЕНВД' },
-        { value: KPP_TYPES.branch, label: 'КПП филиала' }
-      ]
+      items: KPP_REASONS.map((reason) => ({
+        value: reason.id,
+        label: reason.label,
+        group: KPP_GROUPS[reason.group],
+        codeLabel: reason.codeLabel,
+        description: reason.description
+      }))
     }
   },
   OKPO: { label: 'ОКПО', validate: validateOkpoOrg, generate: () => generateOkpo(false) },

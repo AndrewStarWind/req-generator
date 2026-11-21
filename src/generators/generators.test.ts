@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import { KPP_REASONS } from '../kpp'
 import {
   generateBin, generateGln, generateIin, generateInnOrg, generateInnPerson, generateInnUz, generateKpp,
   generateOgrn, generateOgrnip, generateOkpo, generatePinfl, generateSfr, generateSnils, generateUnp,
@@ -18,10 +19,8 @@ const CASES: Array<[name: string, generate: () => string, validate: Validator]> 
   ['ИНН юрлица', () => generateInnOrg(), validateInnOrg],
   ['ИНН иностранной организации', () => generateInnOrg(true), validateInnOrg],
   ['ИНН ИП', generateInnPerson, validateInnPerson],
-  ['КПП по месту регистрации', () => generateKpp(KPP_TYPES.registration), validateKpp],
-  ['КПП крупнейшего налогоплательщика', () => generateKpp(KPP_TYPES.bigTaxPayer), validateKpp],
-  ['КПП ЕНВД', () => generateKpp(KPP_TYPES.envd), validateKpp],
-  ['КПП филиала', () => generateKpp(KPP_TYPES.branch), validateKpp],
+  ...KPP_REASONS.map((reason): [string, () => string, Validator] =>
+    [`КПП: ${reason.label} (${reason.codeLabel})`, () => generateKpp(reason.id), validateKpp]),
   ['ОКПО юрлица', () => generateOkpo(false), validateOkpoOrg],
   ['ОКПО ИП', () => generateOkpo(true), validateOkpoIe],
   ['ОГРН', generateOgrn, validateOgrn],
@@ -68,9 +67,37 @@ describe('КПП: причина постановки соответствует
     [KPP_TYPES.registration, /^01$/],
     [KPP_TYPES.bigTaxPayer, /^50$/],
     [KPP_TYPES.envd, /^(35|77)$/],
-    [KPP_TYPES.branch, /^(?!01|50)\d\d$/]
+    [KPP_TYPES.realEstateFund, /^4[A-F]$/],
+    [KPP_TYPES.artFund, /^5[A-F]$/],
+    [KPP_TYPES.foreignShared, /^77$/],
+    [KPP_TYPES.foreignReserveShared, /^91$/],
+    [KPP_TYPES.branch, /^(02|03|43)$/],
+    [KPP_TYPES.representation, /^(04|05|44)$/],
+    [KPP_TYPES.subdivision, /^(31|32|45)$/],
+    [KPP_TYPES.realEstate, /^0[6-8]$/],
+    [KPP_TYPES.transport, /^(1\d|2\d)$/],
+    [KPP_TYPES.foreign, /^(5[1-9]|6\d|7[0-6]|7[89]|8[0-7])$/],
+    [KPP_TYPES.foreignReserve, /^(8[89]|90|9[2-9])$/]
   ])('%s', (type, reason) => {
     for (let i = 0; i < 200; i++) expect(generateKpp(type).slice(4, 6)).toMatch(reason)
+  })
+
+  it.each([
+    [KPP_TYPES.realEstateFund, '4A', '4F'],
+    [KPP_TYPES.artFund, '5A', '5F'],
+    [KPP_TYPES.transport, '10', '29'],
+    [KPP_TYPES.foreign, '51', '87'],
+    [KPP_TYPES.foreignReserve, '88', '99']
+  ])('%s: включает обе границы диапазона и сохраняет формат', (type, first, last) => {
+    const random = vi.spyOn(Math, 'random')
+    try {
+      random.mockReturnValue(0)
+      expect(generateKpp(type)).toBe(`0000${first}000`)
+      random.mockReturnValue(0.999999)
+      expect(generateKpp(type)).toBe(`9999${last}999`)
+    } finally {
+      random.mockRestore()
+    }
   })
 })
 

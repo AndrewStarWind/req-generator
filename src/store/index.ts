@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { type OptionValue, REQUISITES, type RequisiteId } from '../requisites'
 import { createPersistStorage } from './persistStorage'
+import { normalizeKppType } from '../kpp'
 
 /** Сколько последних значений хранить в истории каждого реквизита; более старые удаляются */
 export const HISTORY_LIMIT = 100
@@ -126,7 +127,9 @@ export const useRequisitesStore = create<RequisitesState>()(
           return { drafts, records: record ? { ...state.records, [id]: { ...record, value: '' } } : state.records }
         }),
 
-        setOption: (id, value) => set((state) => ({ options: { ...state.options, [id]: value } })),
+        setOption: (id, value) => set((state) => ({
+          options: { ...state.options, [id]: id === 'KPP' ? normalizeKppType(value) : value }
+        })),
 
         toggleTheme: () => set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
 
@@ -146,10 +149,12 @@ export const useRequisitesStore = create<RequisitesState>()(
       migrate: (persisted) => persisted as PersistedState,
       merge: (persisted, current) => {
         const state = (persisted ?? {}) as Partial<PersistedState>
+        const options = state.options && typeof state.options === 'object' ? { ...state.options } : {}
+        if ('KPP' in options) options.KPP = normalizeKppType(options.KPP)
         return {
           ...current,
           records: sanitizeRecords(state.records),
-          options: state.options && typeof state.options === 'object' ? state.options : {},
+          options,
           theme: state.theme === 'dark' ? 'dark' : 'light'
         }
       }

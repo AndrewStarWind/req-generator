@@ -33,10 +33,14 @@ export default function RequisiteField ({ requisite }: RequisiteFieldProps) {
   const copied = copiedKey !== null
   const [focused, setFocused] = useState(false)
   const statusId = useId()
+  const descriptionId = useId()
 
   // Ручной ввод показывается вместо сгенерированного и проверяется валидатором
   const isManual = draft !== undefined
   const value = draft ?? generated
+  const optionDescription = !isManual && optionSpec?.type === 'select'
+    ? optionSpec.items.find((item) => item.value === option)?.description
+    : undefined
 
   const copy = (text: string) => void copyText(text, true)
 
@@ -74,6 +78,7 @@ export default function RequisiteField ({ requisite }: RequisiteFieldProps) {
             value={String(option)}
             onChange={(next) => setOption(id, next)}
             options={optionSpec.items}
+            descriptionId={optionDescription ? descriptionId : undefined}
           />
         )}
 
@@ -88,6 +93,15 @@ export default function RequisiteField ({ requisite }: RequisiteFieldProps) {
           <HistoryButton requisiteId={id} label={requisite.label} />
         </div>
       </div>
+      {optionDescription && (
+        <p
+          id={descriptionId}
+          className='text-[12px] leading-4 text-fg-muted'
+          style={{ paddingInlineStart: `calc(${LABEL_WIDTH} + 0.5rem)` }}
+        >
+          {optionDescription}
+        </p>
+      )}
       {validation && (
         // статус - под полем ввода, а не под подписью
         <div style={{ paddingInlineStart: `calc(${LABEL_WIDTH} + 0.5rem)` }}>
